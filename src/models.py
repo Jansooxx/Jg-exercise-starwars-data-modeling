@@ -15,6 +15,7 @@ class Personaje(Base):
     name = Column(String(250), nullable=False)
     eye_color = Column(String(250), nullable=False)
     hair_color = Column(String(250), nullable=False)
+    person_favorite = relationship('Favorito', backref='personaje', lazy=True)
 
 
 class Planeta(Base):
@@ -23,6 +24,8 @@ class Planeta(Base):
     name = Column(String(250), nullable=False)
     population = Column(String(250), nullable=False)
     terrain = Column(String(250), nullable=False)
+    planet_fav = relationship('Favorito', backref='planeta', lazy=True)
+
 
 class Vehicle(Base):
     __tablename__ = 'vehicle'
@@ -30,6 +33,8 @@ class Vehicle(Base):
     name = Column(String(250), nullable=False)
     crew = Column(String(250), nullable=False)
     vehicle_class = Column(String(250), nullable=False)
+    vehicle_fav = relationship('Favorito', backref='vehicle', lazy=True)
+
 
 class Usuario(Base):
     __tablename__ = 'usuario'
@@ -37,6 +42,7 @@ class Usuario(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
+    favorite_users = relationship('Favorito', backref='usuario', lazy=True)
 
 class Favorito(Base):
     __tablename__ = 'favorito'
@@ -45,10 +51,6 @@ class Favorito(Base):
     personaje_id = Column(Integer, ForeignKey('personaje.id'))
     planeta_id = Column(Integer, ForeignKey('planeta.id'))
     vehicle_id = Column(Integer, ForeignKey('vehicle.id'))
-    usuario = relationship(Usuario)
-    personaje = relationship(Personaje)
-    planeta = relationship(Planeta)
-    vehicle = relationship(Vehicle)
 
     def to_dict(self):
         return {}
