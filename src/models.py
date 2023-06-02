@@ -15,7 +15,9 @@ class Personaje(Base):
     name = Column(String(250), nullable=False)
     eye_color = Column(String(250), nullable=False)
     hair_color = Column(String(250), nullable=False)
-    person_favorite = relationship('Favorito', backref='personaje', lazy=True)
+    person_favorite = relationship('Favoritos', backref='personaje', lazy=True)
+    fav_person = relationship('Character_fav', backref = 'personaje', lazy=True)
+
 
 
 class Planeta(Base):
@@ -24,7 +26,9 @@ class Planeta(Base):
     name = Column(String(250), nullable=False)
     population = Column(String(250), nullable=False)
     terrain = Column(String(250), nullable=False)
-    planet_fav = relationship('Favorito', backref='planeta', lazy=True)
+    planet_fav = relationship('Favoritos', backref='planeta', lazy=True)
+    fav_planet = relationship('Planet_fav', backref = 'planeta', lazy=True)
+
 
 
 class Vehicle(Base):
@@ -33,7 +37,8 @@ class Vehicle(Base):
     name = Column(String(250), nullable=False)
     crew = Column(String(250), nullable=False)
     vehicle_class = Column(String(250), nullable=False)
-    vehicle_fav = relationship('Favorito', backref='vehicle', lazy=True)
+    vehicle_fav = relationship('Favoritos', backref='vehicle', lazy=True)
+
 
 
 class Usuario(Base):
@@ -42,15 +47,33 @@ class Usuario(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
-    favorite_users = relationship('Favorito', backref='usuario', lazy=True)
+    favorite_users = relationship('Favoritos', backref='usuario', lazy=True)
+    fav_user = relationship('Users_fav', backref = 'usuario', lazy=True)
 
-class Favorito(Base):
-    __tablename__ = 'favorito'
+class Favoritos(Base):
+    __tablename__ = 'favoritos'
     id = Column(Integer, primary_key=True)
     usuario_id = Column(Integer, ForeignKey('usuario.id'))
     personaje_id = Column(Integer, ForeignKey('personaje.id'))
-    planeta_id = Column(Integer, ForeignKey('planeta.id'))
-    vehicle_id = Column(Integer, ForeignKey('vehicle.id'))
+    planeta_id = Column(Integer,ForeignKey('planeta.id'))
+    vehicle_id = Column(Integer,ForeignKey('vehicle.id'))
+
+class Planet_fav(Base):
+    __tablename__ = 'planet_fav'
+    id = Column(Integer, primary_key=True)
+    planeta_id = Column(Integer,ForeignKey('planeta.id'))
+
+class Users_fav(Base):
+    __tablename__ = 'users_fav'
+    id = Column(Integer, primary_key=True)
+    usuario_id = Column(Integer, ForeignKey('usuario.id'))
+
+
+class Character_fav(Base):
+    __tablename__ = 'character_fav'
+    id = Column(Integer, primary_key=True)
+    personaje_id = Column(Integer, ForeignKey('personaje.id'))
+
 
     def to_dict(self):
         return {}
