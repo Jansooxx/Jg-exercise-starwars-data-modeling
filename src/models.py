@@ -22,8 +22,6 @@ class Vehicle_fav(Base):
     fav_vehicle = Column(Integer,ForeignKey('vehicle.id'))
 
 
-
-
 class Personaje_fav(Base):
     __tablename__ = 'personaje_fav'
     id = Column(Integer, primary_key=True)
@@ -31,9 +29,6 @@ class Personaje_fav(Base):
     usuario_id = Column(Integer, ForeignKey('usuario.id'))
 
     # TABLAS DE FAVORITOS FINAL
-
-
-
 
 class Personaje(Base):
     __tablename__ = 'personaje'
@@ -67,19 +62,15 @@ class Vehicle(Base):
 
 
 
-
 class Usuario(Base):
     __tablename__ = 'usuario'
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
-    fav_user = relationship('Users_fav', backref = 'usuario', lazy=True)
-    fav_user_character = relationship('Personaje_fav', backref = 'usuario', lazy=True)
-
-
-
-    
+    user_personaje = relationship('Personaje_fav', backref = 'usuario', lazy=True)
+    user_vehicle = relationship('Vehicle_fav', backref = 'usuario', lazy=True)
+    user_planeta = relationship('Planeta_fav', backref = 'usuario', lazy=True)
 
 
     def to_dict(self):
